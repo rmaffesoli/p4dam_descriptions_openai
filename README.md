@@ -1,4 +1,4 @@
-# Helix DAM Clip Studio Webhook
+# Helix DAM OpenAi Image Description Webhook
 
 This repository contains a webhook service for processing additional images tags and a verbose description for preview images through OpenAi Chat-GPT-5.4 in Helix DAM. 
 ## Prerequisites
