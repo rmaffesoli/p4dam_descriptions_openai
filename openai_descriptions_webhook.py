@@ -144,9 +144,6 @@ def get_preview_image(depot_path, changelist=None):
         get_preview_url, 
         params=get_preview_params,
     )
-    print(get_preview_url)
-    print(ACCOUNT_KEY)
-    print(get_preview_response)
 
     if get_preview_response.status_code > 299:
         print('request failed')
@@ -186,7 +183,6 @@ def attach_metadata(selected_asset, field_name, value):
         json=add_asset_metadata_body,
     )
 
-    print(add_asset_metadata_response)
     try:
         print(add_asset_metadata_response.json())
     except:
@@ -219,7 +215,6 @@ def attach_additional_tags(selected_asset, tags):
         json=add_asset_tags_body,
     )
 
-    print(add_asset_tags_response)
     try:
         print(add_asset_tags_response.json())
     except:
