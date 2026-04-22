@@ -49,6 +49,30 @@ def get_or_create_metadata_field(field_name):
 
     return image_description_field
 
+def get_preview_image(depot_path, changelist=None):
+    get_preview_url = "{}/api/p4/files/preview".format(SERVER_ADDRESS)
+    
+    get_preview_params = {
+        'account_key': ACCOUNT_KEY,
+        'depot_path': depot_path
+    }
+
+    if changelist:
+        get_preview_params['identifier'] = changelist
+
+    get_preview_response = requests.get(
+        get_preview_url, 
+        params=get_preview_params,
+    )
+    print(get_preview_url)
+    print(ACCOUNT_KEY)
+    print(get_preview_response)
+
+    if get_preview_response.status_code > 299:
+        print('request failed')
+        return
+    
+    return get_preview_response
 
 def attach_metadata(selected_asset, field_name, value):
 

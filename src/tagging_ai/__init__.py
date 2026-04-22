@@ -1,4 +1,5 @@
 import os
+import base64
 import asyncio
 import json
 import logging
@@ -72,7 +73,6 @@ def process_changelist(file_process_dict: dict):
     for file in file_process_dict["file_list"]:
         message = json.dumps(
             {
-                "changelist_description": file_process_dict["desc"],
                 "filepath": file["depot_path"].split("@")[0],
             }
         )
@@ -80,8 +80,8 @@ def process_changelist(file_process_dict: dict):
             {
                 "depot_path": file["depot_path"],
                 "message": message,
-                "b64image": file["thumb"],
-                "image_type": file["thumb_type"],
+                "b64image": file["preview"],
+                "image_type": file["preview_type"],
             }
         )
     output = []
@@ -92,12 +92,12 @@ def process_changelist(file_process_dict: dict):
         output.extend(results)
 
     asyncio.run(_process_items(items, output))
-    print("output", output)
     return output
 
 
 async def _invoke_async(item):
-    image = item['b64image'].decode('utf-8')
+    image = base64.b64encode(item['b64image']).decode('utf-8')
+
     response = client.chat.completions.create(
         model="gpt-5.4",
         messages=[
@@ -121,5 +121,4 @@ async def _invoke_async(item):
         ],
         max_completion_tokens=300,
     )
-    
     return response
